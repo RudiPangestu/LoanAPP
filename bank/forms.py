@@ -52,7 +52,7 @@ class LoanApplicationForm(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
             Row(
-                Column('no_of_dependents', css_class='form-group col-md-6'),
+                Column('no_of_dependents', css_class='form-group col-md-6 '),
                 Column('education', css_class='form-group col-md-6'),
                 css_class='form-row'
             ),
@@ -67,7 +67,7 @@ class LoanApplicationForm(forms.ModelForm):
                 css_class='form-row'
             ),
             Row(
-                Column('cibil_score', css_class='form-group col-md-12'),
+                Column('cibil_score', css_class='form-group col-md-6'),
                 css_class='form-row'
             ),
             Div(

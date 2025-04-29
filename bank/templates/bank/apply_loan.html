@@ -10,13 +10,12 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center text-white">
                 <h1 class="display-5 fw-bold mb-3">Loan Application</h1>
-                <p class="lead mb-5">Complete the form below to apply for a loan. We'll review your information and provide a decision based on your credit score and financial profile.</p>
-            </div>
+                <p class="lead mb-5">Complete the form below to apply for a loan. Our model will predict whether is approved or rejected </p>
         </div>
         
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="form-section">
+            <div class="col-lg-9">
+                <div class="form-section ">
                     <form method="post">
                         {% csrf_token %}
                         {% crispy form %}

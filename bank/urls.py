@@ -8,7 +8,5 @@ urlpatterns = [
     path('testimonials/', views.testimonials, name='testimonials'),
     path('apply/', views.apply_loan, name='apply_loan'),
     path('application/<str:application_id>/', views.application_result, name='application_result'),
-    path('loan-application/', views.loan_application_view, name='loan-application'),
-
 
 ]

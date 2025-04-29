@@ -46,14 +46,12 @@ def loan_application_view(request):
             elif prediction == " Rejected":
                 application_status = 'rejected'
 
-            messages.success(request, f"Your Prediction has been {prediction}.")
-
-            messages.success(request, f"Your loan application has been {application_status}.")
+        
 
     else:
         form = LoanApplicationForm()
 
-    return render(request, 'bank/loan_application.html', {
+    return render(request, 'bank/apply_loan.html', {
         'form': form,
         'prediction': application_status,
     })
