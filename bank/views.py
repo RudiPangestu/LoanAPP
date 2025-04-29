@@ -11,50 +11,6 @@ import pandas as pd
 
 rf_pipeline = joblib.load('bank/ml_models/rf_pipeline.pkl')
 
-def loan_application_view(request):
-    prediction = None
-    application_status = None
-
-    if request.method == 'POST':
-        form = LoanApplicationForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-
-            print("Form is valid. Received data:", data)
-
-            input_features = {
-                'no_of_dependents': [data['no_of_dependents']],
-                'education': [data['education']],
-                'self_employed': [data['self_employed']],
-                'income_annum': [data['income_annum']],
-                'loan_amount': [data['loan_amount']],
-                'loan_term': [data['loan_term']],
-                'cibil_score': [data['cibil_score']],
-                'residential_assets_value': [data['residential_assets_value']],
-                'commercial_assets_value': [data['commercial_assets_value']],
-                'luxury_assets_value': [data['luxury_assets_value']],
-                'bank_asset_value': [data['bank_asset_value']],
-            }
-
-            input_df = pd.DataFrame(input_features)
-
-            prediction = rf_pipeline.predict(input_df)[0]
-
-
-            if prediction == " Approved":
-                application_status = 'approved'
-            elif prediction == " Rejected":
-                application_status = 'rejected'
-
-        
-
-    else:
-        form = LoanApplicationForm()
-
-    return render(request, 'bank/apply_loan.html', {
-        'form': form,
-        'prediction': application_status,
-    })
 
 def home(request):
     return render(request, 'bank/home.html')
@@ -72,7 +28,29 @@ def apply_loan(request):
     if request.method == 'POST':
         form = LoanApplicationForm(request.POST)
         if form.is_valid():
-            application = form.save()
+            data = form.cleaned_data
+
+            input_features = {
+                'no_of_dependents': [data['no_of_dependents']],
+                'education': [data['education']],
+                'self_employed': [data['self_employed']],
+                'income_annum': [data['income_annum']],
+                'loan_amount': [data['loan_amount']],
+                'loan_term': [data['loan_term']],
+                'cibil_score': [data['cibil_score']],
+                'residential_assets_value': [data['residential_assets_value']],
+                'commercial_assets_value': [data['commercial_assets_value']],
+                'luxury_assets_value': [data['luxury_assets_value']],
+                'bank_asset_value': [data['bank_asset_value']],
+            }
+            input_df = pd.DataFrame(input_features)
+
+            prediction = rf_pipeline.predict(input_df)[0]
+
+            application = form.save(commit=False)
+            application.is_approved = (prediction.strip().lower() == 'approved')
+            application.save()
+
             return redirect('application_result', application_id=application.application_id)
     else:
         form = LoanApplicationForm()

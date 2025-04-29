@@ -32,83 +32,11 @@ class LoanApplication(models.Model):
         if not self.application_id:
             # Generate application ID (SB + random numbers)
             self.application_id = f"SB{uuid.uuid4().hex[:6].upper()}"
-            
-            # Determine loan approval
-            self.determine_approval()
+    
             
         super().save(*args, **kwargs)
     
-    def determine_approval(self):
-        """
-        Simple loan approval logic based on the provided parameters.
-        This is a simplified version - in a real system this would be more complex.
-        """
-        # Calculate total assets
-        total_assets = (
-            self.residential_assets_value + 
-            self.commercial_assets_value + 
-            self.luxury_assets_value + 
-            self.bank_asset_value
-        )
-        
-        # Asset to loan ratio
-        asset_to_loan_ratio = total_assets / self.loan_amount if self.loan_amount > 0 else 0
-        
-        # Income to loan ratio (annual)
-        income_to_loan_ratio = self.income_annum / self.loan_amount if self.loan_amount > 0 else 0
-        
-        # Calculate a score
-        score = 0
-        
-        # CIBIL score factor
-        if self.cibil_score >= 750:
-            score += 30
-        elif self.cibil_score >= 700:
-            score += 25
-        elif self.cibil_score >= 650:
-            score += 15
-        elif self.cibil_score >= 600:
-            score += 10
-        
-        # Asset coverage
-        if asset_to_loan_ratio >= 2:
-            score += 25
-        elif asset_to_loan_ratio >= 1.5:
-            score += 20
-        elif asset_to_loan_ratio >= 1:
-            score += 15
-        elif asset_to_loan_ratio >= 0.5:
-            score += 5
-        
-        # Income factor
-        if income_to_loan_ratio >= 0.5:  # Can repay loan in 2 years of full income
-            score += 25
-        elif income_to_loan_ratio >= 0.3:
-            score += 20
-        elif income_to_loan_ratio >= 0.2:
-            score += 15
-        elif income_to_loan_ratio >= 0.1:
-            score += 10
-        
-        # Dependents factor
-        if self.no_of_dependents <= 1:
-            score += 10
-        elif self.no_of_dependents <= 3:
-            score += 5
-        
-        # Education factor
-        if self.education == 'Graduate':
-            score += 5
-        
-        # Self-employment factor
-        if self.self_employed == 'Yes':
-            score += 5
-        
-        # Approve if score is high enough
-        self.is_approved = score >= 60
-        
-        return self.is_approved
-    
+
     def total_assets(self):
         return (
             self.residential_assets_value + 
