@@ -7,102 +7,502 @@
 <!-- Loan Application Section -->
 <section class="bg-bank py-5">
     <style>
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #navbarNav {
+            z-index: 7;
+        }
+        /* Custom styles for improved form */
+        
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 2.5rem;
+            position: relative;
+            margin-bottom: 3rem;
+        }
+        
+        .form-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .form-section {
+            transition: all 0.4s ease;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .form-section.d-none {
+            display: none !important;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .form-control {
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(57, 73, 171, 0.2);
+            border-color: #3949ab;
+        }
+        
         .form-group {
             margin-bottom: 1.5rem;
         }
-        .form-section {
-            margin-bottom: 2rem;
-        }
-        .d-none {
-            display: none;
-        }
-        </style>
         
-    <div class="container">
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #424242;
+        }
+        
+        .form-section h4 {
+            color: #1a237e;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 0.75rem;
+        }
+        
+        .form-section h4:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            width: 40px;
+            background-color: #3949ab;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .step-indicator:before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 33.33%;
+        }
+        
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid #e0e0e0;
+            color: #757575;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .step-title {
+            font-size: 0.875rem;
+            color: #757575;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-circle {
+            background-color: #3949ab;
+            border-color: #3949ab;
+            color: white;
+        }
+        
+        .step.active .step-title {
+            color: #3949ab;
+            font-weight: 600;
+        }
+        
+        .step.completed .step-circle {
+            background-color: #4caf50;
+            border-color: #4caf50;
+            color: white;
+        }
+        
+        .step.completed .step-title {
+            color: #4caf50;
+        }
+        
+        .btn-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary, .btn-success {
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #3949ab;
+            border-color: #3949ab;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1a237e;
+            border-color: #1a237e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 35, 126, 0.2);
+        }
+        
+        .btn-success {
+            background-color: #4caf50;
+            border-color: #4caf50;
+        }
+        
+        .btn-success:hover {
+            background-color: #388e3c;
+            border-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-with-icon .form-control {
+            padding-left: 3rem;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #757575;
+        }
+        
+        /* Card styling for process and FAQ */
+        .process-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .process-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3949ab, #1a237e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .process-card:hover .process-icon {
+            transform: scale(1.1);
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(57, 73, 171, 0.1);
+            color: #1a237e;
+            box-shadow: none;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: #e0e0e0;
+        }
+        
+        .input-help {
+            font-size: 0.8rem;
+            color: #757575;
+            margin-top: 0.25rem;
+        }
+        
+        .tooltip-icon {
+            margin-left: 0.3rem;
+            color: #3949ab;
+            cursor: pointer;
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+    </style>
+        
+    <div class="container" >
+        <div id="particles-js"></div>
         <div class="row justify-content-center">
-            <div class="col-lg-8 text-center text-white">
+            <div class="col-lg-8 text-center text-white mb-5">
                 <h1 class="display-5 fw-bold mb-3">Loan Application</h1>
-                <p class="lead mb-5">Complete the form below to apply for a loan. Our model will predict whether is approved or rejected </p>
+                <p class="lead">Complete the form below to apply for a loan. Our model will predict whether your application is approved or rejected.</p>
+            </div>
         </div>
         
         <div class="row justify-content-center">
-            <div class="col-lg-9">
-                <div class="form-section ">
+            <div id="particles-js"></div>
+            <div class="col-lg-10 z-index-9">
+                <div class="form-container">
+                    <!-- Progress Indicator -->
+                    <div class="step-indicator">
+                        <div class="step active" id="step-1">
+                            <div class="step-circle">1</div>
+                            <div class="step-title">Personal Info</div>
+                        </div>
+                        <div class="step" id="step-2">
+                            <div class="step-circle">2</div>
+                            <div class="step-title">Loan Details</div>
+                        </div>
+                        <div class="step" id="step-3">
+                            <div class="step-circle">3</div>
+                            <div class="step-title">Assets</div>
+                        </div>
+                    </div>
+                    
                     <form method="post" id="loan-application-form">
                         {% csrf_token %}
                     
                         <!-- Section 1: Personal Information -->
                         <div class="form-section" id="section-1">
                             <h4>Personal Information</h4>
-                    
-                            <div class="form-group">
-                                <label for="{{ form.no_of_dependents.id_for_label }}">Number of Dependents</label>
-                                {{ form.no_of_dependents }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.no_of_dependents.id_for_label }}">
+                                            Number of Dependents
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="People who depend on your income"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-users input-icon"></i>
+                                            {{ form.no_of_dependents }}
+                                        </div>
+                                        <div class="input-help">Include children and elderly family members</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.education.id_for_label }}">
+                                            Education Level
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your highest level of education"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-graduation-cap input-icon"></i>
+                                            {{ form.education }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.education.id_for_label }}">Education</label>
-                                {{ form.education }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.self_employed.id_for_label }}">
+                                            Employment Status
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Are you self-employed or work for a company?"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-briefcase input-icon"></i>
+                                            {{ form.self_employed }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.income_annum.id_for_label }}">
+                                            Annual Income ($)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your total annual income before taxes"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-dollar-sign input-icon"></i>
+                                            {{ form.income_annum }}
+                                        </div>
+                                        <div class="input-help">Gross income before taxes and deductions</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.self_employed.id_for_label }}">Are you Self-employed?</label>
-                                {{ form.self_employed }}
+                            
+                            <div class="btn-navigation">
+                                <div></div> <!-- Empty div for spacing -->
+                                <button type="button" class="btn btn-primary next-btn" data-next="section-2">
+                                    Continue to Loan Details <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.income_annum.id_for_label }}">Annual Income ($)</label>
-                                {{ form.income_annum }}
-                            </div>
-                    
-                            <button type="button" class="btn btn-primary next-btn" data-next="section-2">Next</button>
                         </div>
                     
                         <!-- Section 2: Loan Details -->
                         <div class="form-section d-none" id="section-2">
                             <h4>Loan Details</h4>
-                    
-                            <div class="form-group">
-                                <label for="{{ form.loan_amount.id_for_label }}">Loan Amount ($)</label>
-                                {{ form.loan_amount }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.loan_amount.id_for_label }}">
+                                            Loan Amount ($)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="The total amount you wish to borrow"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-money-bill-wave input-icon"></i>
+                                            {{ form.loan_amount }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.loan_term.id_for_label }}">
+                                            Loan Term (Years)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Duration of the loan repayment period"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-calendar-alt input-icon"></i>
+                                            {{ form.loan_term }}
+                                        </div>
+                                        <div class="input-help">Enter a value between 1-30 years</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.loan_term.id_for_label }}">Loan Term (Years)</label>
-                                {{ form.loan_term }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.cibil_score.id_for_label }}">
+                                            CIBIL Score
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your credit score between 300-900"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-chart-line input-icon"></i>
+                                            {{ form.cibil_score }}
+                                        </div>
+                                        <div class="input-help">Higher scores increase approval chances</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.cibil_score.id_for_label }}">CIBIL Score (300-900)</label>
-                                {{ form.cibil_score }}
+                            
+                            <div class="btn-navigation">
+                                <button type="button" class="btn btn-outline-secondary prev-btn" data-prev="section-1">
+                                    <i class="fas fa-arrow-left me-2"></i> Back to Personal Info
+                                </button>
+                                <button type="button" class="btn btn-primary next-btn" data-next="section-3">
+                                    Continue to Assets <i class="fas fa-arrow-right ms-2"></i>
+                                </button>
                             </div>
-                    
-                            <button type="button" class="btn btn-primary prev-btn" data-prev="section-1">Back</button>
-                            <button type="button" class="btn btn-primary next-btn" data-next="section-3">Next</button>
                         </div>
                     
                         <!-- Section 3: Asset Information -->
                         <div class="form-section d-none" id="section-3">
                             <h4>Asset Information</h4>
-                    
-                            <div class="form-group">
-                                <label for="{{ form.residential_assets_value.id_for_label }}">Value of Residential Assets ($)</label>
-                                {{ form.residential_assets_value }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.residential_assets_value.id_for_label }}">
+                                            Residential Assets ($)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Value of your home and residential properties"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-home input-icon"></i>
+                                            {{ form.residential_assets_value }}
+                                        </div>
+                                        <div class="input-help">Total value of homes & residential properties</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.commercial_assets_value.id_for_label }}">
+                                            Commercial Assets ($)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Value of your commercial properties and business assets"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-building input-icon"></i>
+                                            {{ form.commercial_assets_value }}
+                                        </div>
+                                        <div class="input-help">Business properties, offices, etc.</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.commercial_assets_value.id_for_label }}">Value of Commercial Assets ($)</label>
-                                {{ form.commercial_assets_value }}
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.luxury_assets_value.id_for_label }}">
+                                            Luxury Assets ($)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Value of luxury items you own"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-gem input-icon"></i>
+                                            {{ form.luxury_assets_value }}
+                                        </div>
+                                        <div class="input-help">Vehicles, jewelry, art, collectibles</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label" for="{{ form.bank_asset_value.id_for_label }}">
+                                            Bank Assets ($)
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Value of your savings, investments and liquid assets"></i>
+                                        </label>
+                                        <div class="input-with-icon">
+                                            <i class="fas fa-university input-icon"></i>
+                                            {{ form.bank_asset_value }}
+                                        </div>
+                                        <div class="input-help">Savings, deposits, investments</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.luxury_assets_value.id_for_label }}">Value of Luxury Assets ($)</label>
-                                {{ form.luxury_assets_value }}
+                            
+                            <div class="form-group form-check mt-3">
+                                <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label" for="termsCheck">
+                                    I confirm that all the information provided is accurate and complete
+                                </label>
                             </div>
-                            <div class="form-group">
-                                <label for="{{ form.bank_asset_value.id_for_label }}">Value of Bank Assets ($)</label>
-                                {{ form.bank_asset_value }}
+                            
+                            <div class="btn-navigation">
+                                <button type="button" class="btn btn-outline-secondary prev-btn" data-prev="section-2">
+                                    <i class="fas fa-arrow-left me-2"></i> Back to Loan Details
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check-circle me-2"></i> Submit Application
+                                </button>
                             </div>
-                    
-                            <button type="button" class="btn btn-primary prev-btn" data-prev="section-2">Back</button>
-                            <button type="submit" class="btn btn-success">Submit Application</button>
                         </div>
                     </form>
-                    
-                    
                 </div>
             </div>
         </div>
@@ -114,56 +514,59 @@
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-lg-8 text-center">
-                <h2 class="section-title text-center">Our Loan Application Process</h2>
-                <p class="text-muted">We've made applying for a loan as simple and straightforward as possible. Here's what to expect:</p>
+                <h2 class="fw-bold text-center position-relative d-inline-block pb-3 mb-4">
+                    Our Loan Application Process
+                    <span class="position-absolute start-0 end-0 bottom-0" style="height: 3px; background: linear-gradient(90deg, transparent, #3949ab, transparent); display: block;"></span>
+                </h2>
+                <p class="text-muted">We've streamlined our loan application process to make it simple and efficient. Here's what you can expect:</p>
             </div>
         </div>
         
         <div class="row">
             <div class="col-md-3 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card process-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <div class="process-icon text-white mb-4">
                             <i class="fas fa-file-alt fa-2x"></i>
                         </div>
-                        <h4>1. Apply</h4>
-                        <p class="text-muted">Complete the application form with your personal and financial details.</p>
+                        <h4 class="fw-bold mb-3">1. Apply</h4>
+                        <p class="text-muted">Complete our streamlined application form with your personal and financial details.</p>
                     </div>
                 </div>
             </div>
             
             <div class="col-md-3 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card process-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <div class="process-icon text-white mb-4">
                             <i class="fas fa-search-dollar fa-2x"></i>
                         </div>
-                        <h4>2. Review</h4>
-                        <p class="text-muted">Our team reviews your application and credit information.</p>
+                        <h4 class="fw-bold mb-3">2. Review</h4>
+                        <p class="text-muted">Our AI-powered system reviews your application and credit information instantly.</p>
                     </div>
                 </div>
             </div>
             
             <div class="col-md-3 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card process-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <div class="process-icon text-white mb-4">
                             <i class="fas fa-check-circle fa-2x"></i>
                         </div>
-                        <h4>3. Approval</h4>
-                        <p class="text-muted">Receive your loan decision within 24 hours of applying.</p>
+                        <h4 class="fw-bold mb-3">3. Approval</h4>
+                        <p class="text-muted">Receive your loan decision quickly, often within minutes of completing your application.</p>
                     </div>
                 </div>
             </div>
             
             <div class="col-md-3 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
+                <div class="card process-card border-0 shadow-sm h-100">
                     <div class="card-body text-center p-4">
-                        <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                        <div class="process-icon text-white mb-4">
                             <i class="fas fa-money-check-alt fa-2x"></i>
                         </div>
-                        <h4>4. Funding</h4>
-                        <p class="text-muted">Get your loan funds deposited directly into your account.</p>
+                        <h4 class="fw-bold mb-3">4. Funding</h4>
+                        <p class="text-muted">Upon approval, get your loan funds deposited directly into your account within 1-3 business days.</p>
                     </div>
                 </div>
             </div>
@@ -172,66 +575,83 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="py-5 bg-light">
+<section class="py-5" style="background-color: #f8f9fa;">
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-lg-8 text-center">
-                <h2 class="section-title text-center">Frequently Asked Questions</h2>
-                <p class="text-muted">Find answers to common questions about our loan application process.</p>
+                <h2 class="fw-bold text-center position-relative d-inline-block pb-3 mb-4">
+                    Frequently Asked Questions
+                    <span class="position-absolute start-0 end-0 bottom-0" style="height: 3px; background: linear-gradient(90deg, transparent, #3949ab, transparent); display: block;"></span>
+                </h2>
+                <p class="text-muted">Get answers to common questions about our loan application process.</p>
             </div>
         </div>
         
         <div class="row justify-content-center">
+            
             <div class="col-lg-10">
                 <div class="accordion" id="loanFaq">
-                    <div class="accordion-item border mb-3 rounded shadow-sm">
+                    <div class="accordion-item border mb-3 rounded shadow-sm overflow-hidden">
                         <h2 class="accordion-header" id="heading1">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                                What factors affect my loan approval?
+                            <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                <i class="fas fa-question-circle me-2 text-primary"></i> What factors affect my loan approval?
                             </button>
                         </h2>
                         <div id="collapse1" class="accordion-collapse collapse show" aria-labelledby="heading1" data-bs-parent="#loanFaq">
                             <div class="accordion-body">
-                                Several factors affect loan approval, including your credit score, income, existing debt, employment history, and the value of your assets. We look at your overall financial situation to determine your ability to repay the loan.
+                                Several factors affect loan approval, including your credit score, income, existing debt, employment history, and the value of your assets. We look at your overall financial situation to determine your ability to repay the loan. Our advanced AI model considers multiple factors simultaneously to make a fair assessment of your application.
                             </div>
                         </div>
                     </div>
                     
-                    <div class="accordion-item border mb-3 rounded shadow-sm">
+                    <div class="accordion-item border mb-3 rounded shadow-sm overflow-hidden">
                         <h2 class="accordion-header" id="heading2">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
-                                How long does the approval process take?
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                <i class="fas fa-clock me-2 text-primary"></i> How long does the approval process take?
                             </button>
                         </h2>
                         <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#loanFaq">
                             <div class="accordion-body">
-                                Most loan applications are processed within 24 hours. After approval, funds can be deposited in your account within 1-3 business days, depending on your bank.
+                                Most loan applications are processed instantly using our advanced AI system. After approval, funds can be deposited in your account within 1-3 business days, depending on your bank. Our digital process eliminates paperwork and unnecessary delays, making it one of the fastest loan services available.
                             </div>
                         </div>
                     </div>
                     
-                    <div class="accordion-item border mb-3 rounded shadow-sm">
+                    <div class="accordion-item border mb-3 rounded shadow-sm overflow-hidden">
                         <h2 class="accordion-header" id="heading3">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
-                                What is a CIBIL score and why is it important?
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                <i class="fas fa-chart-line me-2 text-primary"></i> What is a CIBIL score and why is it important?
                             </button>
                         </h2>
                         <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#loanFaq">
                             <div class="accordion-body">
-                                CIBIL score is a three-digit number (ranging from 300 to 900) that represents your creditworthiness. It's based on your credit history and is important because lenders use it to evaluate the risk of lending money to you. A higher score increases your chances of loan approval with better terms.
+                                CIBIL score is a three-digit number (ranging from 300 to 900) that represents your creditworthiness. It's based on your credit history and is important because lenders use it to evaluate the risk of lending money to you. A higher score increases your chances of loan approval with better terms. Generally, scores above 700 are considered good, while those above 750 are excellent and may qualify you for preferential interest rates.
                             </div>
                         </div>
                     </div>
                     
-                    <div class="accordion-item border mb-3 rounded shadow-sm">
+                    <div class="accordion-item border mb-3 rounded shadow-sm overflow-hidden">
                         <h2 class="accordion-header" id="heading4">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                                Can I apply if I have a low credit score?
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                                <i class="fas fa-shield-alt me-2 text-primary"></i> Can I apply if I have a low credit score?
                             </button>
                         </h2>
                         <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#loanFaq">
                             <div class="accordion-body">
-                                Yes, you can still apply. While a good credit score (700+) improves your chances of approval, we consider multiple factors including your income, assets, and employment history. However, a lower credit score may result in higher interest rates or require additional security.
+                                Yes, you can still apply. While a good credit score (700+) improves your chances of approval, our AI-powered system considers multiple factors including your income, assets, and employment history. We believe in giving everyone a fair chance. However, a lower credit score may result in higher interest rates or require additional security. We recommend improving your score before applying if possible, but we evaluate each application on its overall merits.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border mb-3 rounded shadow-sm overflow-hidden">
+                        <h2 class="accordion-header" id="heading5">
+                            <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
+                                <i class="fas fa-file-signature me-2 text-primary"></i> Are there any fees for applying?
+                            </button>
+                        </h2>
+                        <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="heading5" data-bs-parent="#loanFaq">
+                            <div class="accordion-body">
+                                No, there are no application fees. We believe in transparent pricing with no hidden charges. You'll only pay if your loan is approved and you accept our offer. At that point, a small processing fee may apply, but this will be clearly disclosed before you make any commitment. We pride ourselves on our honest, upfront approach to lending.
                             </div>
                         </div>
                     </div>
@@ -239,6 +659,7 @@
             </div>
         </div>
     </div>
+</section>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const nextButtons = document.querySelectorAll('.next-btn');
@@ -262,7 +683,55 @@
                 });
             });
         });
+
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const nextButtons = document.querySelectorAll('.next-btn');
+            const prevButtons = document.querySelectorAll('.prev-btn');
+            const sections = document.querySelectorAll('.form-section');
+            const steps = document.querySelectorAll('.step');
+    
+            function showSection(targetId) {
+                sections.forEach(section => {
+                    section.classList.add('d-none');
+                });
+                document.getElementById(targetId).classList.remove('d-none');
+            }
+    
+            function updateSteps(currentStepIndex) {
+                steps.forEach((step, index) => {
+                    step.classList.remove('active', 'completed');
+                    if (index < currentStepIndex) {
+                        step.classList.add('completed');
+                    } else if (index === currentStepIndex) {
+                        step.classList.add('active');
+                    }
+                });
+            }
+    
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const nextSectionId = button.getAttribute('data-next');
+                    const currentIndex = Array.from(sections).findIndex(sec => !sec.classList.contains('d-none'));
+                    showSection(nextSectionId);
+                    updateSteps(currentIndex + 1);
+                });
+            });
+    
+            prevButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const prevSectionId = button.getAttribute('data-prev');
+                    const currentIndex = Array.from(sections).findIndex(sec => !sec.classList.contains('d-none'));
+                    showSection(prevSectionId);
+                    updateSteps(currentIndex - 1);
+                });
+            });
+        });
+    </script>
+    
         
 </section>
 {% endblock %}
+
+
