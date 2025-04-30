@@ -664,31 +664,6 @@
         document.addEventListener('DOMContentLoaded', function () {
             const nextButtons = document.querySelectorAll('.next-btn');
             const prevButtons = document.querySelectorAll('.prev-btn');
-        
-            nextButtons.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const current = this.closest('.form-section');
-                    const next = document.getElementById(this.dataset.next);
-                    current.classList.add('d-none');
-                    next.classList.remove('d-none');
-                });
-            });
-        
-            prevButtons.forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const current = this.closest('.form-section');
-                    const prev = document.getElementById(this.dataset.prev);
-                    current.classList.add('d-none');
-                    prev.classList.remove('d-none');
-                });
-            });
-        });
-
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const nextButtons = document.querySelectorAll('.next-btn');
-            const prevButtons = document.querySelectorAll('.prev-btn');
             const sections = document.querySelectorAll('.form-section');
             const steps = document.querySelectorAll('.step');
     
