@@ -45,11 +45,12 @@ class LoanApplicationForm(forms.ModelForm):
             'luxury_assets_value': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
             'bank_asset_value': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
+        self.helper.form_id = 'loan-application-form'
+        self.helper.form_tag = False  # We'll use custom HTML tag wrapping the form'
         self.helper.layout = Layout(
             Row(
                 Column('no_of_dependents', css_class='form-group col-md-6 '),

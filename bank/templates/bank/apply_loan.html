@@ -6,6 +6,18 @@
 {% block content %}
 <!-- Loan Application Section -->
 <section class="bg-bank py-5">
+    <style>
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        .d-none {
+            display: none;
+        }
+        </style>
+        
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center text-white">
@@ -16,10 +28,81 @@
         <div class="row justify-content-center">
             <div class="col-lg-9">
                 <div class="form-section ">
-                    <form method="post">
+                    <form method="post" id="loan-application-form">
                         {% csrf_token %}
-                        {% crispy form %}
+                    
+                        <!-- Section 1: Personal Information -->
+                        <div class="form-section" id="section-1">
+                            <h4>Personal Information</h4>
+                    
+                            <div class="form-group">
+                                <label for="{{ form.no_of_dependents.id_for_label }}">Number of Dependents</label>
+                                {{ form.no_of_dependents }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.education.id_for_label }}">Education</label>
+                                {{ form.education }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.self_employed.id_for_label }}">Are you Self-employed?</label>
+                                {{ form.self_employed }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.income_annum.id_for_label }}">Annual Income ($)</label>
+                                {{ form.income_annum }}
+                            </div>
+                    
+                            <button type="button" class="btn btn-primary next-btn" data-next="section-2">Next</button>
+                        </div>
+                    
+                        <!-- Section 2: Loan Details -->
+                        <div class="form-section d-none" id="section-2">
+                            <h4>Loan Details</h4>
+                    
+                            <div class="form-group">
+                                <label for="{{ form.loan_amount.id_for_label }}">Loan Amount ($)</label>
+                                {{ form.loan_amount }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.loan_term.id_for_label }}">Loan Term (Years)</label>
+                                {{ form.loan_term }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.cibil_score.id_for_label }}">CIBIL Score (300-900)</label>
+                                {{ form.cibil_score }}
+                            </div>
+                    
+                            <button type="button" class="btn btn-primary prev-btn" data-prev="section-1">Back</button>
+                            <button type="button" class="btn btn-primary next-btn" data-next="section-3">Next</button>
+                        </div>
+                    
+                        <!-- Section 3: Asset Information -->
+                        <div class="form-section d-none" id="section-3">
+                            <h4>Asset Information</h4>
+                    
+                            <div class="form-group">
+                                <label for="{{ form.residential_assets_value.id_for_label }}">Value of Residential Assets ($)</label>
+                                {{ form.residential_assets_value }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.commercial_assets_value.id_for_label }}">Value of Commercial Assets ($)</label>
+                                {{ form.commercial_assets_value }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.luxury_assets_value.id_for_label }}">Value of Luxury Assets ($)</label>
+                                {{ form.luxury_assets_value }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.bank_asset_value.id_for_label }}">Value of Bank Assets ($)</label>
+                                {{ form.bank_asset_value }}
+                            </div>
+                    
+                            <button type="button" class="btn btn-primary prev-btn" data-prev="section-2">Back</button>
+                            <button type="submit" class="btn btn-success">Submit Application</button>
+                        </div>
                     </form>
+                    
+                    
                 </div>
             </div>
         </div>
@@ -156,5 +239,30 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const nextButtons = document.querySelectorAll('.next-btn');
+            const prevButtons = document.querySelectorAll('.prev-btn');
+        
+            nextButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const current = this.closest('.form-section');
+                    const next = document.getElementById(this.dataset.next);
+                    current.classList.add('d-none');
+                    next.classList.remove('d-none');
+                });
+            });
+        
+            prevButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const current = this.closest('.form-section');
+                    const prev = document.getElementById(this.dataset.prev);
+                    current.classList.add('d-none');
+                    prev.classList.remove('d-none');
+                });
+            });
+        });
+    </script>
+        
 </section>
 {% endblock %}
