@@ -7,12 +7,6 @@
 <!-- Loan Application Section -->
 <section class="bg-bank py-5">
     <style>
-        #particles-js {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
         #navbarNav {
             z-index: 7;
         }
@@ -264,9 +258,63 @@
             left: 0;
             z-index: 0;
         }
+        
+        .form-control.is-invalid {
+            border-color: #dc3545;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        .validation-help {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
+
+        /* Visual indication for fields that pass validation */
+        .form-control.is-valid {
+            border-color: #198754;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right calc(0.375em + 0.1875rem) center;
+            background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+        }
+
+        /* Add shake animation for invalid fields */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .shake {
+            animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        /* Required field indication */
+        .required-field::after {
+            content: " *";
+            color: #dc3545;
+        }
     </style>
         
     <div class="container" >
+        <!-- Error Message Card - Will appear in top-right corner -->
+        <div id="error-toast" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+            <div id="liveToast" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header bg-danger text-white">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    <strong class="me-auto">Error</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="error-toast-message">
+                    <!-- Error message content will be inserted here -->
+                </div>
+            </div>
+        </div>
+        
         <div id="particles-js"></div>
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center text-white mb-5">
@@ -296,8 +344,7 @@
                     </div>
                     
                     <form method="post" id="loan-application-form">
-                        {% csrf_token %}
-                    
+                        {% csrf_token %}                        
                         <!-- Section 1: Personal Information -->
                         <div class="form-section" id="section-1">
                             <h4>Personal Information</h4>
@@ -305,7 +352,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.no_of_dependents.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.no_of_dependents.id_for_label }}">
                                             Number of Dependents
                                             <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="People who depend on your income"></i>
                                         </label>
@@ -314,18 +361,20 @@
                                             {{ form.no_of_dependents }}
                                         </div>
                                         <div class="input-help">Include children and elderly family members</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.education.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.education.id_for_label }}">
                                             Education Level
-                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your highest level of education"></i>
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your level of education"></i>
                                         </label>
                                         <div class="input-with-icon">
                                             <i class="fas fa-graduation-cap input-icon"></i>
                                             {{ form.education }}
                                         </div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                             </div>
@@ -333,7 +382,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.self_employed.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.self_employed.id_for_label }}">
                                             Employment Status
                                             <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Are you self-employed or work for a company?"></i>
                                         </label>
@@ -341,19 +390,21 @@
                                             <i class="fas fa-briefcase input-icon"></i>
                                             {{ form.self_employed }}
                                         </div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.income_annum.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.income_annum.id_for_label }}">
                                             Annual Income ($)
-                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your total annual income before taxes"></i>
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your total annual income before taxes (minimum $5,000)"></i>
                                         </label>
                                         <div class="input-with-icon">
                                             <i class="fas fa-dollar-sign input-icon"></i>
                                             {{ form.income_annum }}
                                         </div>
-                                        <div class="input-help">Gross income before taxes and deductions</div>
+                                        <div class="input-help">Gross income before taxes and deductions (minimum $5,000)</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                             </div>
@@ -373,27 +424,30 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.loan_amount.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.loan_amount.id_for_label }}">
                                             Loan Amount ($)
-                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="The total amount you wish to borrow"></i>
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="The total amount you wish to borrow (minimum $5,000)"></i>
                                         </label>
                                         <div class="input-with-icon">
                                             <i class="fas fa-money-bill-wave input-icon"></i>
                                             {{ form.loan_amount }}
                                         </div>
+                                        <div class="input-help">Minimum loan amount is $5,000</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.loan_term.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.loan_term.id_for_label }}">
                                             Loan Term (Years)
-                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Duration of the loan repayment period"></i>
+                                            <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Duration of the loan repayment period (2-30 years)"></i>
                                         </label>
                                         <div class="input-with-icon">
                                             <i class="fas fa-calendar-alt input-icon"></i>
                                             {{ form.loan_term }}
                                         </div>
-                                        <div class="input-help">Enter a value between 1-30 years</div>
+                                        <div class="input-help">Enter a value between 2-30 years</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                             </div>
@@ -401,7 +455,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-label" for="{{ form.cibil_score.id_for_label }}">
+                                        <label class="form-label required-field" for="{{ form.cibil_score.id_for_label }}">
                                             CIBIL Score
                                             <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Your credit score between 300-900"></i>
                                         </label>
@@ -409,7 +463,8 @@
                                             <i class="fas fa-chart-line input-icon"></i>
                                             {{ form.cibil_score }}
                                         </div>
-                                        <div class="input-help">Higher scores increase approval chances</div>
+                                        <div class="input-help">Don't know your CIBIL score? Check it on the <a href="https://idebku.ojk.go.id/Public/HomePage" target="_blank" rel="noopener noreferrer">official iDeb OJK website </a></div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                             </div>
@@ -440,6 +495,7 @@
                                             {{ form.residential_assets_value }}
                                         </div>
                                         <div class="input-help">Total value of homes & residential properties</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -453,6 +509,7 @@
                                             {{ form.commercial_assets_value }}
                                         </div>
                                         <div class="input-help">Business properties, offices, etc.</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                             </div>
@@ -469,6 +526,7 @@
                                             {{ form.luxury_assets_value }}
                                         </div>
                                         <div class="input-help">Vehicles, jewelry, art, collectibles</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -482,6 +540,7 @@
                                             {{ form.bank_asset_value }}
                                         </div>
                                         <div class="input-help">Savings, deposits, investments</div>
+                                        <div class="validation-help"></div>
                                     </div>
                                 </div>
                             </div>
@@ -508,7 +567,6 @@
         </div>
     </div>
 </section>
-
 <!-- Application Process Section -->
 <section class="py-5 bg-white">
     <div class="container">
@@ -660,53 +718,231 @@
         </div>
     </div>
 </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const nextButtons = document.querySelectorAll('.next-btn');
-            const prevButtons = document.querySelectorAll('.prev-btn');
-            const sections = document.querySelectorAll('.form-section');
-            const steps = document.querySelectorAll('.step');
-    
-            function showSection(targetId) {
-                sections.forEach(section => {
-                    section.classList.add('d-none');
-                });
-                document.getElementById(targetId).classList.remove('d-none');
-            }
-    
-            function updateSteps(currentStepIndex) {
-                steps.forEach((step, index) => {
-                    step.classList.remove('active', 'completed');
-                    if (index < currentStepIndex) {
-                        step.classList.add('completed');
-                    } else if (index === currentStepIndex) {
-                        step.classList.add('active');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const nextButtons = document.querySelectorAll('.next-btn');
+        const prevButtons = document.querySelectorAll('.prev-btn');
+        const sections = document.querySelectorAll('.form-section');
+        const steps = document.querySelectorAll('.step');
+        
+        // Initialize Bootstrap toast
+        const toastLiveExample = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastLiveExample, {
+            autohide: true,
+            delay: 5000
+        });
+        
+        // Function to show error toast with message
+        function showErrorToast(message) {
+            const toastMessageElement = document.getElementById('error-toast-message');
+            toastMessageElement.textContent = message;
+            toast.show();
+        }
+        
+        // Add validation rules for minimum values
+        const minValues = {
+            'id_income_annum': 5000,
+            'id_loan_amount': 5000,
+            'id_loan_term': 2,
+            'id_cibil_score': 300,
+            'id_residential_assets_value': 0,
+            'id_commercial_assets_value': 0,
+            'id_luxury_assets_value': 0,
+            'id_bank_asset_value': 5000
+        };
+        
+        // Add validation rules for maximum values
+        const maxValues = {
+            'id_loan_term': 30,
+            'id_cibil_score': 900
+        };
+        
+        // Add helper text for input fields with validation
+        function addValidationHelpText() {
+            Object.keys(minValues).forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    // Get parent div with form-group class
+                    const formGroup = field.closest('.form-group');
+                    if (formGroup) {
+                        // Check if help text already exists
+                        let helpDiv = formGroup.querySelector('.validation-help');
+                        if (!helpDiv) {
+                            helpDiv = document.createElement('div');
+                            helpDiv.className = 'validation-help text-danger small mt-1';
+                            formGroup.appendChild(helpDiv);
+                        }
+                        
+                        // Set min attribute on the input field
+                        field.setAttribute('min', minValues[fieldId]);
+                        
+                        // Set max attribute if exists
+                        if (maxValues[fieldId]) {
+                            field.setAttribute('max', maxValues[fieldId]);
+                        }
                     }
-                });
-            }
-    
-            nextButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const nextSectionId = button.getAttribute('data-next');
-                    const currentIndex = Array.from(sections).findIndex(sec => !sec.classList.contains('d-none'));
-                    showSection(nextSectionId);
-                    updateSteps(currentIndex + 1);
-                });
+                }
             });
-    
-            prevButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const prevSectionId = button.getAttribute('data-prev');
-                    const currentIndex = Array.from(sections).findIndex(sec => !sec.classList.contains('d-none'));
-                    showSection(prevSectionId);
-                    updateSteps(currentIndex - 1);
-                });
+        }
+        
+        // Function to validate a single input field
+        function validateField(field) {
+            const fieldId = field.id;
+            const value = parseFloat(field.value);
+            const helpDiv = field.closest('.form-group').querySelector('.validation-help');
+            
+            // Clear previous validation message
+            if (helpDiv) {
+                helpDiv.textContent = '';
+            }
+            
+            // Check if field is empty
+            if (field.value.trim() === '') {
+                if (helpDiv) {
+                    helpDiv.textContent = 'This field is required';
+                }
+                return false;
+            }
+            
+            // Check minimum value if applicable
+            if (minValues[fieldId] !== undefined && value < minValues[fieldId]) {
+                if (helpDiv) {
+                    helpDiv.textContent = `Minimum value is ${minValues[fieldId]}`;
+                }
+                return false;
+            }
+            
+            // Check maximum value if applicable
+            if (maxValues[fieldId] !== undefined && value > maxValues[fieldId]) {
+                if (helpDiv) {
+                    helpDiv.textContent = `Maximum value is ${maxValues[fieldId]}`;
+                }
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Function to validate all fields in a section
+        function validateSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const inputs = section.querySelectorAll('input, select');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                // Skip the terms checkbox in the validation
+                if (input.id === 'termsCheck') return;
+                
+                const result = validateField(input);
+                if (!result) {
+                    isValid = false;
+                }
+            });
+            
+            return isValid;
+        }
+        
+        function showSection(targetId) {
+            sections.forEach(section => {
+                section.classList.add('d-none');
+            });
+            document.getElementById(targetId).classList.remove('d-none');
+        }
+        
+        function updateSteps(currentStepIndex) {
+            steps.forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStepIndex) {
+                    step.classList.add('completed');
+                } else if (index === currentStepIndex) {
+                    step.classList.add('active');
+                }
+            });
+        }
+        
+        // Call the function to add validation help text
+        addValidationHelpText();
+        
+        // Add input event listeners to all fields for real-time validation
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', function() {
+                validateField(this);
+            });
+            
+            // Also trigger validation when the field loses focus
+            input.addEventListener('blur', function() {
+                validateField(this);
             });
         });
-    </script>
-    
         
-</section>
+        nextButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const currentSectionId = button.closest('.form-section').id;
+                const nextSectionId = button.getAttribute('data-next');
+                const currentIndex = Array.from(sections).findIndex(sec => !sec.classList.contains('d-none'));
+                
+                // Validate current section before proceeding
+                if (validateSection(currentSectionId)) {
+                    showSection(nextSectionId);
+                    updateSteps(currentIndex + 1);
+                    document.getElementById('form-error-message').classList.add('d-none');
+                    document.getElementById('form-error-message').textContent = '';
+                } else {
+                    const errorMsg = 'Please fill all required fields with valid values before proceeding.';
+                    
+                    // Use the toast notification instead of the inline error message
+                    showErrorToast(errorMsg);
+                    
+                    // Still update the hidden error div for consistency
+                    const errorBox = document.getElementById('form-error-message');
+                    errorBox.textContent = errorMsg;
+                    errorBox.classList.remove('d-none');
+                }
+                
+            });
+        });
+        
+        prevButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const prevSectionId = button.getAttribute('data-prev');
+                const currentIndex = Array.from(sections).findIndex(sec => !sec.classList.contains('d-none'));
+                showSection(prevSectionId);
+                updateSteps(currentIndex - 1);
+            });
+        });
+        
+        // Add form submission validation
+        const form = document.getElementById('loan-application-form');
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+            
+            // Validate all sections
+            sections.forEach(section => {
+                if (!validateSection(section.id)) {
+                    isValid = false;
+                }
+            });
+            
+            // Check terms checkbox
+            const termsCheck = document.getElementById('termsCheck');
+            if (!termsCheck.checked) {
+                isValid = false;
+                showErrorToast('Please confirm that all information provided is accurate by checking the box.');
+            }
+            
+            if (!isValid) {
+                event.preventDefault();
+                showErrorToast('Please complete all required fields with valid values before submitting.');
+                
+                // Still update the hidden error message
+                const errorBox = document.getElementById('form-error-message');
+                errorBox.textContent = 'Please complete all required fields with valid values before submitting.';
+                errorBox.classList.remove('d-none');
+            } else {
+                document.getElementById('form-error-message').classList.add('d-none');
+                document.getElementById('form-error-message').textContent = '';
+            }
+        });
+    });
+</script>
 {% endblock %}
-
-

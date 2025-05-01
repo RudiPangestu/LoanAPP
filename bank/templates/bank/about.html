@@ -1,5 +1,5 @@
 {% extends 'bank/base.html' %}
-
+{% load static %}
 {% block title %}About Us - SecureBank{% endblock %}
 
 {% block content %}
@@ -10,7 +10,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 text-center text-white">
                 <h1 class="display-4 fw-bold mb-4">About SecureBank</h1>
-                <p class="lead mb-0">Your trusted financial partner since 2010. Learn more about our story, mission, and the values that drive us.</p>
+                <p class="lead mb-0">Your trusted financial partner. Learn more about our story, mission, and the values that drive us.</p>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <h2 class="section-title">Our Story</h2>
-                <p>Founded in 2010, SecureBank began with a simple mission: to provide accessible, reliable, and secure banking services to individuals and businesses alike. What started as a small community bank has grown into a trusted financial institution serving customers nationwide.</p>
+                <p>SecureBank began with a simple mission: to provide accessible, reliable, and secure banking services to individuals and businesses alike. What started as a small community bank has grown into a trusted financial institution serving customers nationwide.</p>
                 <p>Through the years, we've remained committed to our founding principles while adapting to the changing financial landscape and embracing innovative technologies to better serve our customers.</p>
                 <p>Today, SecureBank continues to grow, guided by our core values and a steadfast commitment to helping our customers achieve their financial goals.</p>
             </div>
@@ -111,7 +111,7 @@
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-lg-8 text-center">
-                <h2 class="section-title text-center">Our Leadership Team</h2>
+                <h2 class="section-title text-center">Our Team</h2>
                 <p class="text-muted">Meet the experienced professionals leading SecureBank toward continued success.</p>
             </div>
         </div>
@@ -119,33 +119,33 @@
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm">
-                    <img src="https://images.pexels.com/photos/5668774/pexels-photo-5668774.jpeg" class="card-img-top" alt="CEO">
+                    <img src="{% static 'bank/NICO.jpeg' %}" class="card-img-top" alt="NICO" style="height: 400px; object-fit: cover;">
                     <div class="card-body text-center p-4">
-                        <h4>Michael Reynolds</h4>
+                        <h4>Nico Fransco </h4>
                         <p class="text-muted mb-3">Chief Executive Officer</p>
-                        <p class="small">With over 25 years of banking experience, Michael leads our organization with a focus on innovation and customer-centric solutions.</p>
+                        <p class="small">With over 3 years of experience, Nico leads our organization with a focus on innovation and customer-centric solutions.</p>
                     </div>
                 </div>
             </div>
             
             <div class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm">
-                    <img src="https://images.pexels.com/photos/5669602/pexels-photo-5669602.jpeg" class="card-img-top" alt="CFO">
+                    <img src="{% static 'bank/NELSON.jpeg' %}" class="card-img-top" alt="Nelson" style="height: 400px; object-fit: cover;">
                     <div class="card-body text-center p-4">
-                        <h4>Sarah Chen</h4>
-                        <p class="text-muted mb-3">Chief Financial Officer</p>
-                        <p class="small">Sarah brings a wealth of financial expertise and strategic insight to ensure the bank's continued financial strength.</p>
+                        <h4>Nelson Richie Ricardo</h4>
+                        <p class="text-muted mb-3">Programmer</p>
+                        <p class="small">Nelson have programming expertise and strategic insight to ensure the bank's continued financial strength.</p>
                     </div>
                 </div>
             </div>
             
             <div class="col-md-4 mb-4">
                 <div class="card border-0 shadow-sm">
-                    <img src="https://images.pexels.com/photos/4100481/pexels-photo-4100481.jpeg" class="card-img-top" alt="CTO">
+                    <img src="{% static 'bank/WILSON.jpeg' %}" class="card-img-top" alt="WILSON" style="height: 400px; object-fit: cover;">
                     <div class="card-body text-center p-4">
-                        <h4>David Parker</h4>
-                        <p class="text-muted mb-3">Chief Technology Officer</p>
-                        <p class="small">David leads our digital transformation initiatives, ensuring we remain at the forefront of banking technology and security.</p>
+                        <h4>Wilson</h4>
+                        <p class="text-muted mb-3">Machine Learning Specialist</p>
+                        <p class="small">Wilson leads our digital transformation initiatives, ensuring we remain at the forefront of banking technology.</p>
                     </div>
                 </div>
             </div>
