@@ -4,13 +4,11 @@
 {% block title %}Apply for a Loan - SecureBank{% endblock %}
 
 {% block content %}
-<!-- Loan Application Section -->
 <section class="bg-bank py-5">
     <style>
         #navbarNav {
             z-index: 7;
         }
-        /* Custom styles for improved form */
         
         .form-container {
             background-color: white;
@@ -199,7 +197,6 @@
             color: #757575;
         }
         
-        /* Card styling for process and FAQ */
         .process-card {
             border-radius: 10px;
             overflow: hidden;
@@ -301,7 +298,6 @@
     </style>
         
     <div class="container" >
-        <!-- Error Message Card - Will appear in top-right corner -->
         <div id="error-toast" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
             <div id="liveToast" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="toast-header bg-danger text-white">
@@ -310,7 +306,6 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>
                 <div class="toast-body" id="error-toast-message">
-                    <!-- Error message content will be inserted here -->
                 </div>
             </div>
         </div>
@@ -923,7 +918,6 @@
                 }
             });
             
-            // Check terms checkbox
             const termsCheck = document.getElementById('termsCheck');
             if (!termsCheck.checked) {
                 isValid = false;
@@ -934,7 +928,6 @@
                 event.preventDefault();
                 showErrorToast('Please complete all required fields with valid values before submitting.');
                 
-                // Still update the hidden error message
                 const errorBox = document.getElementById('form-error-message');
                 errorBox.textContent = 'Please complete all required fields with valid values before submitting.';
                 errorBox.classList.remove('d-none');
