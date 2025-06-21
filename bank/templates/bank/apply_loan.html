@@ -295,6 +295,180 @@
             content: " *";
             color: #dc3545;
         }
+        /* Button Navigation Styling */
+        .btn-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding: 1rem 0;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Button Base Styling */
+        .btn-navigation .btn {
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: 2px solid transparent;
+            min-width: 140px;
+            font-size: 0.95rem;
+        }
+
+        /* Primary Button Styling */
+        .btn-navigation .btn-primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border-color: #007bff;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-navigation .btn-primary:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Success Button Styling */
+        .btn-navigation .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            border-color: #28a745;
+            box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+        }
+
+        .btn-navigation .btn-success:hover {
+            background: linear-gradient(135deg, #1e7e34 0%, #155724 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Outline Button Styling */
+        .btn-navigation .btn-outline-secondary {
+            background: transparent;
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+        .btn-navigation .btn-outline-secondary:hover {
+            background: #6c757d;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+        }
+
+        /* Button Icons */
+        .btn i {
+            font-size: 0.9em;
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .btn-navigation {
+                flex-direction: column;
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+                padding: 0.75rem 0;
+            }
+            
+            .btn-navigation .btn {
+                width: 100%;
+                padding: 0.875rem 1rem;
+                font-size: 1rem;
+                min-width: unset;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+            }
+            
+            /* Reverse order on mobile for better UX */
+            .btn-navigation {
+                flex-direction: column-reverse;
+            }
+            
+            /* Make primary/success button more prominent on mobile */
+            .btn-navigation .btn-primary,
+            .btn-navigation .btn-success {
+                order: -1;
+                font-weight: 600;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .btn-navigation {
+                margin-top: 1.25rem;
+                padding: 0.5rem 0;
+                gap: 0.5rem;
+            }
+            
+            .btn-navigation .btn {
+                padding: 1rem;
+                font-size: 1.1rem;
+                border-radius: 10px;
+            }
+            
+            /* Add some margin to form sections on very small screens */
+            .form-section {
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* For single button scenarios (like first section) */
+        .btn-navigation:has(.btn:only-child) {
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 768px) {
+            .btn-navigation:has(.btn:only-child) {
+                justify-content: stretch;
+            }
+        }
+
+        /* Loading state for submit button */
+        .btn-navigation .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Focus states for accessibility */
+        .btn-navigation .btn:focus {
+            outline: 2px solid #007bff;
+            outline-offset: 2px;
+        }
+
+        /* Animation for button transitions */
+        .btn-navigation .btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-navigation .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-navigation .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Spacing between form sections */
+        .form-section {
+            margin-bottom: 1rem;
+        }
+
+
+
+       
+
+
     </style>
         
     <div class="container" >
